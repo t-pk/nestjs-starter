@@ -59,6 +59,114 @@ $ yarn test:e2e
 $ yarn test:cov
 ```
 
+## Describe
+
+```bash
+
++---.github
+|
+|
++---.husky
+|
+|
++---.vscode
+|
+|
++---src
+|   |   app.module.ts
+|   |   main.ts
+|   |
+|   +---entities
+|   |       index.ts
+|   |       languages.ts
+|   |       users.ts
+|   |
+|   +---modules
+|   |   +---auth
+|   |   |   |   auth.controller.ts
+|   |   |   |   auth.module.ts
+|   |   |   |   auth.service.ts
+|   |   |   |   jwt-auth.guard.ts
+|   |   |   |   jwt.strategy.ts
+|   |   |   |
+|   |   |   +---dto
+|   |   |   |       create-session.ts
+|   |   |   |       interfaces.ts
+|   |   |   |       update-session.ts
+|   |   |   |
+|   |   |   \---roles
+|   |   |           roles.decorator.ts
+|   |   |           roles.enum.ts
+|   |   |
+|   |   +---database
+|   |   |       database.module.ts
+|   |   |       database.provider.ts
+|   |   |       repository.database.provider.ts
+|   |   |       UnitOfWork.ts
+|   |   |
+|   |   +---language
+|   |   |   |   language.controller.ts
+|   |   |   |   language.module.ts
+|   |   |   |   language.service.ts
+|   |   |   |
+|   |   |   \---language.dto
+|   |   |           get.ts
+|   |   |           index.ts
+|   |   |           remove.ts
+|   |   |           upsert.ts
+|   |   |
+|   |   \---user
+|   |       |   user.controller.ts
+|   |       |   user.module.ts
+|   |       |   user.service.ts
+|   |       |
+|   |       \---dto
+|   |               index.ts
+|   |               user.dto.ts
+|   |
+|   \---shared
+|       |   index.ts
+|       |
+|       +---config
+|       |   |   database.ts
+|       |   |   error-message.ts
+|       |   |   policy.ts
+|       |   |
+|       |   \---interfaces
+|       |           data-base.interface.ts
+|       |           error-message.interface.ts
+|       |
+|       +---errors
+|       |       index.ts
+|       |       message-code-error.ts
+|       |
+|       +---filters
+|       |       dispatch-error.ts
+|       |
+|       +---interfaces
+|       |       index.ts
+|       |       request.ts
+|       |       session.ts
+|       |
+|       +---models
+|       |       paginition-model.ts
+|       |
+|       +---paginate
+|       |   |   index.ts
+|       |   |   paginate.ts
+|       |   |   pagination.ts
+|       |   |
+|       |   \---interfaces
+|       |           index.ts
+|       |
+|       \---utils
+|               crypto.ts
+|               reponse.ts
+|
+\---__tests__
+
+```
+
 ## Support
 
 This is an MIT-licensed open source project. It can grow thanks to the support by the amazing backers. If you'd like to join them, please [read more here](https://github.com/pktai/nestjs-sequelize-typescript/issues).
