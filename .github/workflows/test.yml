@@ -23,12 +23,11 @@ jobs:
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
 
-      - name: yarn build   
+      - name: yarn build
         run: |
           yarn lint
-          yarn tsc
 
-      - name: yarn tracking
+      - name: yarn coverage
         env:
           NODE_ENV: ${{ secrets.NODE_ENV }}
           DB_DIALECT: ${{ secrets.DB_DIALECT }}          
