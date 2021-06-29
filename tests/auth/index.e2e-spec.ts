@@ -6,11 +6,11 @@ import {
 } from '@nestjs/platform-fastify';
 import { DispatchError } from '../../src/shared';
 import { LanguageModule } from '../../src/modules/language/language.module';
+import { ValidationPipe } from '@nestjs/common';
 
 describe('authentication', () => {
   let app: NestFastifyApplication;
   let token = {};
-  let accessToken = '';
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,7 +20,9 @@ describe('authentication', () => {
       new FastifyAdapter()
     );
 
+    app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new DispatchError());
+
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
 
@@ -35,18 +37,6 @@ describe('authentication', () => {
       })
       .then((result) => {
         token = JSON.parse(result.payload);
-      });
-    await app
-      .inject({
-        method: 'POST',
-        url: '/userSession',
-        payload: {
-          username: 'admin1',
-          password: '12345678',
-        },
-      })
-      .then((result) => {
-        accessToken = JSON.parse(result.payload).accessToken;
       });
   });
 
@@ -96,12 +86,31 @@ describe('authentication', () => {
         expect(JSON.parse(result.payload)).toMatchObject({
           statusCode: 401,
           error: 'Unauthorized',
-          message: 'jwt expired',
+          message: 'invalid signature',
         });
       });
   });
 
-  it(`/DELETE languages`, () => {
+  it(`/PUT userSession`, () => {
+    const sessionExpired = {
+      accessToken:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1MzV9.xKjVVLb-kxzAqc7zbl8MzyXiLD5Ejy0K4BRFntDQOag',
+      refreshToken:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1NjV9.zBWJKSkD_is7eLmfo0bMRjw-7H9ZStLoTUi3Dz__Ijk',
+    };
+
+    return app
+      .inject({
+        method: 'PUT',
+        url: '/userSession',
+        payload: sessionExpired,
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(401);
+      });
+  });
+
+  it(`/DELETE languages expect status 401`, () => {
     return app
       .inject({
         method: 'DELETE',
@@ -116,17 +125,40 @@ describe('authentication', () => {
       });
   });
 
-  it(`/DELETE languages`, () => {
+  it(`/DELETE languages expect status 403`, () => {
     return app
       .inject({
         method: 'DELETE',
         url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
         headers: {
-          authorization: 'Bearer ' + accessToken,
+          authorization: 'Bearer ' + (token as any).accessToken,
         },
       })
       .then((result) => {
         expect(result.statusCode).toEqual(403);
+      });
+  });
+
+  it(`/DELETE languages expect status 401`, () => {
+    return app
+      .inject({
+        method: 'DELETE',
+        url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(401);
+      });
+  });
+
+  it(`/DELETE language`, () => {
+    return app
+      .inject({
+        method: 'DELETE',
+        url: '/language',
+        payload: token,
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(404);
       });
   });
 
@@ -135,9 +167,23 @@ describe('authentication', () => {
       .inject({
         method: 'DELETE',
         url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
+        headers: {
+          authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNDRhNjYxOWUtZjZjMy00MjNhLWI2NjktYTc4MzFlN2Y0MDEzIiwicm9sZXMiOiJBRE1JTiIsImlhdCI6MTYyNDk2OTAwNywiZXhwIjoxNjI0OTY5MDEwfQ.3CjsHU6qGG5Gd-_PKAmobFgLK2W0KcZg4GdevRKojr4'
+        }
       })
       .then((result) => {
         expect(result.statusCode).toEqual(401);
+      });
+  });
+
+  it(`/POST languages expect 400`, () => {
+    return app
+      .inject({
+        method: 'POST',
+        url: '/languages',
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(400);
       });
   });
 
