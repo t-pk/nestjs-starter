@@ -2,7 +2,7 @@
 <p align="center">
 <a href="http://nestjs.com/"  target="blank"><img  src="https://docs.nestjs.com/assets/logo-small.svg"  width="100"  alt="Nest Logo" /></a>
 <a href="https://www.fastify.io/"  target="blank"><img  src="https://github.com/fastify/graphics/blob/master/fastify-1000px-square-01.png"  width="100"  alt="Fastify Logo" /></a>
-<a href="https://sequelize.org/v6"  target="blank"><img  src="https://sequelize.org/v5/manual/asset/logo-small.png"  width="100"  alt="Sequelize Logo" /></a>
+<a href="https://sequelize.org/master"  target="blank"><img  src="https://sequelize.org/v5/manual/asset/logo-small.png"  width="100"  alt="Sequelize Logo" /></a>
 <a href="https://www.typescriptlang.org"  target="blank"><img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png"  width="100"  alt="Typescript Logo" /></a>
 <a href="https://www.postgresql.org"  target="blank"><img  src="https://www.postgresql.org/media/img/about/press/elephant.png"  width="100"  alt="PostgreSql Logo" /></a>
 <a href="https://jwt.io"  target="blank"><img  src="https://jwt.io/img/pic_logo.svg"  width="100"  alt="JWT Logo" /></a>

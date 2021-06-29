@@ -17,14 +17,14 @@ import {
 } from '@nestjs/swagger';
 import { Model } from 'sequelize/types';
 import { LanguageService } from './language.service';
-import { UpsertLanguage } from './language.dto';
+import { UpsertLanguage } from './dto';
 
 import {
   ResponseOK,
   getRoute,
   ParameterDecorator,
 } from '../../shared/utils/reponse';
-import { QueryLanguage } from './language.dto/get';
+import { QueryLanguage } from './dto/query-language';
 import { Pagination } from '../../shared';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles/roles.decorator';

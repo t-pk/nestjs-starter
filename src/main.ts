@@ -11,7 +11,7 @@ import helmet from 'fastify-helmet';
 import fastifyRateLimit from 'fastify-rate-limit';
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
-import { policy } from './shared/config/policy';
+import { CSP } from './shared/config/policy';
 
 const fAdapt = new FastifyAdapter();
 const { RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW, SERVICE_PORT, SERVICE_NAME } =
@@ -32,7 +32,7 @@ async function bootstrap(): Promise<void> {
   app.enableCors();
   app.setGlobalPrefix('api');
 
-  app.register(helmet, policy);
+  app.register(helmet, CSP);
 
   const options = new DocumentBuilder()
     .addBearerAuth()

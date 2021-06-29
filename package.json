@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./__tests__/jest-e2e.json",
+    "test:e2e": "jest --config ./tests/jest-e2e.json",
     "prebuild": "rimraf dist",
     "prepare": "husky install",
     "pre-commit-lint": "yarn check-types && yarn lint-staged && yarn lint"
@@ -91,7 +91,7 @@
   "jest": {
     "moduleFileExtensions": ["js", "json", "ts"],
     "rootDir": ".",
-    "testMatch": ["**/__tests__/**/*.e2e-spec.ts"],
+    "testMatch": ["**/tests/**/*.e2e-spec.ts"],
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },

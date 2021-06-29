@@ -1,4 +1,4 @@
-export const policy = {
+export const CSP = {
   contentSecurityPolicy: {
     directives: {
       defaultSrc: [`'self'`],
