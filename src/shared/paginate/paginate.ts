@@ -12,7 +12,7 @@ type TypePaginate = (
 const paginate: TypePaginate = async (repository, query, searchOptions) => {
   const page = query.page > 1 ? query.page : 1;
 
-  const limit = query.limit > 10 ? query.limit : 10;
+  const limit = query.limit >= 10 ? query.limit : 10;
 
   const offset = (query.page > 1 ? query.page - 1 : 0) * limit;
 

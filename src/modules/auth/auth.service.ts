@@ -15,7 +15,7 @@ const { EXPIRESIN_REFRESH_TOKEN } = process.env;
 export class AuthService {
   constructor(
     private usersService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<Users | null> {
@@ -71,7 +71,7 @@ export class AuthService {
 
       throw new MessageCodeError('auth:tokenExpired');
     } catch (e) {
-      throw new MessageCodeError('auth:tokenExpired');
+      throw e;
     }
   }
 

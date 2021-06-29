@@ -1,53 +1,41 @@
-import { IDatabaseConfig } from './interfaces/data-base.interface';
-import { config } from 'dotenv';
-config();
+import { IDatabaseConfigAttributes } from './interfaces/data-base.interface';
+import { ConfigService } from '@nestjs/config';
 
-export const databaseConfig: IDatabaseConfig = {
-  development: {
-    username: process.env.DB_USER || '',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || '',
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: Number(process.env.DB_PORT) || 5432,
+type IDBConfig = (configService: ConfigService) => IDatabaseConfigAttributes;
+
+export const databaseConfig: IDBConfig = (configService) => {
+  const configBase: IDatabaseConfigAttributes = {
+    username: '' + configService.get('DB_USER'),
+    password: '' + configService.get('DB_PASSWORD'),
+    database: '' + configService.get('DB_NAME'),
+    host: '' + configService.get('DB_HOST'),
+    port: Number(configService.get('DB_PORT')),
     dialect: 'postgres',
-    logging: console.log,
+    logging: true,
     force: true,
     timezone: '+07:00',
-  },
+  };
 
-  test: {
-    username: process.env.DB_USER || '',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || '',
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: Number(process.env.DB_PORT) || 5432,
-    dialect: 'postgres',
-    logging: false,
-    force: true,
-    timezone: '+07:00',
-    // dialectOptions: {
-    //   ssl: {
-    //     require: true,
-    //     rejectUnauthorized: false,
-    //   },
-    // },
-  },
+  const env = '' + configService.get('NODE_ENV');
+  switch (env) {
+    case 'dev':
+    case 'development':
+      return configBase;
 
-  production: {
-    username: process.env.DB_USER || '',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || '',
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: Number(process.env.DB_PORT) || 5432,
-    dialect: 'postgres',
-    logging: false,
-    force: true,
-    timezone: '+07:00',
-    // dialectOptions: {
-    //   ssl: {
-    //     require: true,
-    //     rejectUnauthorized: false,
-    //   },
-    // },
-  },
+    case 'test':
+      return configBase;
+
+    case 'prod':
+    case 'production':
+      // configBase.dialectOptions = {
+      //   ssl: {
+      //     require: true,
+      //     rejectUnauthorized: false,
+      //   },
+      // };
+      return configBase;
+
+    default:
+      return configBase;
+  }
 };

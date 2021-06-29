@@ -1,11 +1,10 @@
 import supertest from 'supertest';
 import { Test } from '@nestjs/testing';
 import { LanguageModule } from '../../src/modules/language/language.module';
-// import { LanguageService } from '../../src/modules/language/language.service';
 import { INestApplication } from '@nestjs/common';
-// import { successReponse } from '../../src/shared/utils/reponse';
 import { DispatchError } from '../../src/shared';
 import { AuthModule } from '../../src/modules/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 describe('languages', () => {
   let app: INestApplication;
@@ -13,7 +12,11 @@ describe('languages', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [LanguageModule, AuthModule],
+      imports: [
+        LanguageModule,
+        AuthModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+      ],
     }).compile();
 
     app = moduleRef.createNestApplication();
@@ -24,7 +27,7 @@ describe('languages', () => {
 
     supertest(app.getHttpServer())
       .post('/userSession')
-      .send({ username: 'admin', password: '12345678' })
+      .send({ username: 'user', password: '12345678' })
       .end((_, response) => {
         accessToken = response.body.accessToken;
       });
@@ -32,12 +35,10 @@ describe('languages', () => {
 
   it(`/GET /content`, () => {
     return supertest(app.getHttpServer()).get('/languages').expect(200);
-    //.expect(catsService.findLanguages());
   });
 
   it(`/GET /languages`, () => {
     return supertest(app.getHttpServer()).get('/languages').expect(200);
-    //.expect(catsService.findLanguages());
   });
 
   it(`/GET /languages`, () => {
@@ -45,15 +46,20 @@ describe('languages', () => {
       .get('/languages')
       .query({ limit: 5 })
       .expect(200);
-    // .expect(catsService.findLanguages());
   });
 
   it(`/GET /languages`, () => {
     return supertest(app.getHttpServer())
       .get('/languages')
-      .query({ limit: 5, page: 10, status: true, name: 'SG' })
+      .query({ limit: 5, page: 10, status: true })
       .expect(200);
-    // .expect(catsService.findLanguages());
+  });
+
+  it(`/GET /languages`, () => {
+    return supertest(app.getHttpServer())
+      .get('/languages')
+      .query({ limit: 20, page: 2 })
+      .expect(200);
   });
 
   it(`/POST /languages`, () => {
@@ -66,7 +72,6 @@ describe('languages', () => {
         status: true,
       })
       .expect(201);
-    // .expect(catsService.upsertLanguage());
   });
 
   it(`/POST /languages`, () => {
@@ -78,7 +83,6 @@ describe('languages', () => {
         status: true,
       })
       .expect(400);
-    // .expect(catsService.upsertLanguage());
   });
 
   it(`/DELETE /languages/:id`, () => {

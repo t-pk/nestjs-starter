@@ -4,17 +4,20 @@ import { UsersModule } from '../../src/modules/user/user.module';
 import { INestApplication } from '@nestjs/common';
 import { DispatchError } from '../../src/shared';
 import { Users } from '../../src/entities';
+import { ConfigModule } from '@nestjs/config';
 
 describe('languages', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [UsersModule],
+      imports: [UsersModule, ConfigModule.forRoot({ isGlobal: true })],
     }).compile();
 
     app = moduleRef.createNestApplication();
+
     app.useGlobalFilters(new DispatchError());
+
     await app.init();
   });
 
