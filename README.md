@@ -62,16 +62,51 @@ $ yarn test:cov
 ## Describe
 
 ```bash
-
-+---.github
+.
+|   .commitlintrc.json
+|   .env
+|   .env.example
+|   .eslintrc
+|   .gitignore
+|   .lintstagedrc
+|   .prettierrc
+|   .sequelizerc
+|   LICENSE
+|   nest-cli.json
+|   package.json
+|   README.md
+|   tsconfig.build.json
+|   tsconfig.json
+|   yarn.lock
 |
++---.github
+|   |   config.yml
+|   |   FUNDING.yml
+|   |   stale.yml
+|   |
+|   \---workflows
+|           test.yml
 |
 +---.husky
-|
+|   |   .gitignore
+|   |   pre-commit
+|   |
+|   \---_
+|           husky.sh
 |
 +---.vscode
+|       extensions.json
+|       launch.json
+|       settings.json
+|       tasks.json
 |
-|
++---db
+|   |   config.ts
+|   |
+|   +---migrations
+|   |       20210629104501-create-user.js
+|   |
+|   \---seeders
 +---src
 |   |   app.module.ts
 |   |   main.ts
@@ -109,11 +144,11 @@ $ yarn test:cov
 |   |   |   |   language.module.ts
 |   |   |   |   language.service.ts
 |   |   |   |
-|   |   |   \---language.dto
-|   |   |           get.ts
+|   |   |   \---dto
 |   |   |           index.ts
-|   |   |           remove.ts
-|   |   |           upsert.ts
+|   |   |           query-language.ts
+|   |   |           remove-language.ts
+|   |   |           upsert-language.ts
 |   |   |
 |   |   \---user
 |   |       |   user.controller.ts
@@ -121,8 +156,8 @@ $ yarn test:cov
 |   |       |   user.service.ts
 |   |       |
 |   |       \---dto
+|   |               create-user.ts
 |   |               index.ts
-|   |               user.dto.ts
 |   |
 |   \---shared
 |       |   index.ts
@@ -163,7 +198,23 @@ $ yarn test:cov
 |               crypto.ts
 |               reponse.ts
 |
-\---__tests__
+\---tests
+    |   jest-e2e.json
+    |
+    +---auth
+    |       index.e2e-spec.ts
+    |
+    +---database
+    |       index.e2e-spec.ts
+    |
+    +---dispatch_error
+    |       index.e2e-spec.ts
+    |
+    +---languages
+    |       index.e2e-spec.ts
+    |
+    \---users
+            index.e2e-spec.ts
 
 ```
 

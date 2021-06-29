@@ -10,7 +10,7 @@ export const databaseProvider = {
   provide: 'SequelizeInstance',
   useFactory: async (): Promise<Sequelize> => {
     let config: IDatabaseConfigAttributes;
-    const env = process.env.NODE_ENV?.toLowerCase() || 'local';
+    const env = process.env.NODE_ENV?.toLowerCase() || 'development';
     switch (env) {
       case 'dev':
       case 'development':
