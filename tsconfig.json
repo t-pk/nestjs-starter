@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
     "module": "commonjs",
+    "target": "es2017",
+
     "declaration": true,
+    "sourceMap": true,
+    "incremental": true,
     "removeComments": true,
+    "declarationMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "declarationMap": true,
 
     // "noEmit": true,
     "strict": true,
@@ -18,16 +19,16 @@
 
     /* Additional Checks */
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noImplicitReturns": true,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
     /* Module Resolution Options */
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false
   },
   "exclude": ["node_modules", "dist"]

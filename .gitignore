@@ -21,12 +21,12 @@ package-lock.json
 /.nyc_output
 
 # IDEs and editors
+.c9/
 /.idea
 .project
-.classpath
-.c9/
 *.launch
 .settings/
+.classpath
 *.sublime-workspace
 
 # IDE - VSCode
