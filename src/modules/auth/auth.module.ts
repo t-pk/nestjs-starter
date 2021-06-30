@@ -5,20 +5,25 @@ import { UsersModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { config } from 'dotenv';
-import { ConfigService } from '@nestjs/config';
-config();
-
-const { SECRET_TOKEN, EXPIRESIN_ACCESS_TOKEN } = process.env;
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     UsersModule,
     PassportModule,
-    JwtModule.register({
-      secret: SECRET_TOKEN,
-      signOptions: { expiresIn: EXPIRESIN_ACCESS_TOKEN },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return {
+          secret: configService.get<string>('SECRET_TOKEN'),
+          signOptions: {
+            expiresIn: configService.get<string>('EXPIRESIN_ACCESS_TOKEN'),
+          },
+        };
+      },
+      inject: [ConfigService],
     }),
+    ConfigModule,
   ],
   providers: [AuthService, JwtStrategy, ConfigService],
   exports: [AuthService],

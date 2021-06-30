@@ -4,7 +4,7 @@ import { DispatchError, MessageCodeError } from '../../src/shared';
 import { DatabaseModule } from '../../src/modules/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 
-describe('database', () => {
+describe('message code error', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe('database', () => {
     await app.init();
   });
 
-  it(`share error`, async () => {
+  it(`[MESSAGE CODE ERROR]`, async () => {
     expect(new MessageCodeError('auth:header:null')).toBeInstanceOf(
       MessageCodeError
     );

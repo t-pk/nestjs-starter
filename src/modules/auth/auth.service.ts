@@ -5,17 +5,15 @@ import { Users } from '../../entities';
 import { verifyHash } from '../../shared/utils/crypto';
 import { IUser } from '../../shared/interfaces';
 import { ISession } from '../../shared/interfaces/session';
-import { MessageCodeError } from '../../shared/errors';
-import { config } from 'dotenv';
-config();
-
-const { EXPIRESIN_REFRESH_TOKEN } = process.env;
+import { UpdateSession } from './dto/update-session';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
+    private configService: ConfigService
   ) {}
 
   async validateUser(username: string, pass: string): Promise<Users | null> {
@@ -46,50 +44,27 @@ export class AuthService {
     };
   }
 
-  async updateSession(tokens: ISession): Promise<ISession> {
+  async updateSession(tokens: UpdateSession): Promise<ISession> {
     try {
-      const acInfo: string | null | Partial<IUser> = this.jwtService.decode(
-        tokens.accessToken
-      );
+      const userInfo = this.jwtService.verify(tokens.refreshToken);
 
-      const reInfo = this.jwtService.verify(tokens.refreshToken);
-      if (
-        acInfo &&
-        !(typeof acInfo === 'string') &&
-        reInfo &&
-        this.verifySession(acInfo, reInfo) &&
-        reInfo.sub
-      ) {
-        const payload: Partial<IUser> = {
-          username: reInfo.username,
-          sub: reInfo.sub,
-          roles: reInfo.roles,
-        };
-        const { accessToken } = this.createSession(payload);
-        return { accessToken, refreshToken: tokens.refreshToken };
-      }
+      const payload: Partial<IUser> = {
+        username: userInfo.username,
+        sub: userInfo.sub,
+        roles: userInfo.roles,
+      };
 
-      throw new MessageCodeError('auth:tokenExpired');
+      const { accessToken } = this.createSession(payload);
+      return { accessToken, refreshToken: tokens.refreshToken };
     } catch (e) {
       throw e;
     }
   }
 
-  verifySession(
-    accessInfo: Partial<IUser>,
-    refreshInfo: IUser
-  ): Required<boolean> {
-    return (
-      accessInfo.sub === refreshInfo.sub &&
-      accessInfo.username === refreshInfo.username &&
-      accessInfo.roles === refreshInfo.roles
-    );
-  }
-
   createSession(payload: Partial<IUser>): ISession {
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: EXPIRESIN_REFRESH_TOKEN,
+      expiresIn: this.configService.get('EXPIRESIN_REFRESH_TOKEN'),
     });
     return {
       accessToken,
