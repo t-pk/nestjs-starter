@@ -1,60 +1,62 @@
-import supertest from 'supertest';
 import { Test } from '@nestjs/testing';
 import { UsersModule } from '../../src/modules/user/user.module';
-import { INestApplication } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { DispatchError } from '../../src/shared';
 import { Users } from '../../src/entities';
 import { ConfigModule } from '@nestjs/config';
+import { dataExample } from './data-example';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
-describe('languages', () => {
-  let app: INestApplication;
+describe('users', () => {
+  let app: NestFastifyApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [UsersModule, ConfigModule.forRoot({ isGlobal: true })],
     }).compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter()
+    );
 
+    app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new DispatchError());
 
     await app.init();
   });
 
-  it(`/POST /users`, () => {
-    return supertest(app.getHttpServer())
-      .post('/users')
-      .send({
-        username: 'admin1234',
-        password: '123456789',
+  it(`/POST /users [201]`, () => {
+    return app
+      .inject({
+        method: 'POST',
+        url: '/users',
+        payload: dataExample.userRegister,
       })
-      .expect(201);
+      .then((result) => {
+        expect(result.statusCode).toEqual(201);
+      });
   });
 
-  it(`/POST /users dupplicate`, () => {
-    return supertest(app.getHttpServer())
-      .post('/users')
-      .send({
-        username: 'admin1234',
-        password: '12345678',
+  it(`/POST /users create new duplicate [400]`, () => {
+    return app
+      .inject({
+        method: 'POST',
+        url: 'users',
+        payload: dataExample.userRegister,
       })
-      .expect(400);
+      .then((result) => {
+        expect(result.statusCode).toEqual(400);
+      });
   });
-
-  // it(`/POST /users`, () => {
-  //   return supertest(app.getHttpServer())
-  //     .post('/users')
-  //     .send({
-  //       username: 'admin',
-  //       password: '12345678',
-  //     })
-  //     .expect(400);
-  // });
 
   afterAll(async () => {
     await Users.destroy({
-      where: { username: 'admin1234' },
+      where: { username: dataExample.userRegister.username },
     });
+
     await app.close();
   });
 });

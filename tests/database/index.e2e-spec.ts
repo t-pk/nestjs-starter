@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('database', () => {
   let app: INestApplication;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let config: any;
 
   beforeAll(async () => {
@@ -15,7 +16,7 @@ describe('database', () => {
       imports: [
         DatabaseModule,
         ConfigService,
-        ConfigModule.forRoot({ isGlobal: true }), //ignoreEnvVars: true }),
+        ConfigModule.forRoot({ isGlobal: true }),
       ],
     }).compile();
 
@@ -25,28 +26,28 @@ describe('database', () => {
     await app.init();
   });
 
-  it(`Check connection database`, async () => {
+  it(`[DATABASE] test environment`, async () => {
     process.env.NODE_ENV = 'test';
 
     expect(await databaseProvider.useFactory(config)).toBeInstanceOf(Sequelize);
   });
 
-  it(`databse dev`, async () => {
+  it(`[DATABASE] dev environment`, async () => {
     process.env.NODE_ENV = 'dev';
     expect(await databaseProvider.useFactory(config)).toBeInstanceOf(Sequelize);
   });
 
-  it(`databse prod`, async () => {
+  it(`[DATABASE] prod environment`, async () => {
     process.env.NODE_ENV = 'prod';
     expect(await databaseProvider.useFactory(config)).toBeInstanceOf(Sequelize);
   });
 
-  it(`databse production`, async () => {
+  it(`[DATABASE] production environment`, async () => {
     process.env.NODE_ENV = 'production';
     expect(await databaseProvider.useFactory(config)).toBeInstanceOf(Sequelize);
   });
 
-  it(`databse product`, async () => {
+  it(`[DATABASE] product environment`, async () => {
     process.env.NODE_ENV = 'product';
     expect(await databaseProvider.useFactory(config)).toBeInstanceOf(Sequelize);
   });

@@ -7,6 +7,7 @@ import {
 import { DispatchError } from '../../src/shared';
 import { LanguageModule } from '../../src/modules/language/language.module';
 import { ValidationPipe } from '@nestjs/common';
+import { dataExample } from './data-example';
 
 describe('authentication', () => {
   let app: NestFastifyApplication;
@@ -30,28 +31,10 @@ describe('authentication', () => {
       .inject({
         method: 'POST',
         url: '/userSession',
-        payload: {
-          username: 'admin',
-          password: '12345678',
-        },
+        payload: dataExample.accountAdmin,
       })
       .then((result) => {
         token = JSON.parse(result.payload);
-      });
-  });
-
-  it(`/POST userSession`, () => {
-    return app
-      .inject({
-        method: 'POST',
-        url: '/userSession',
-        payload: {
-          username: 'admin',
-          password: '12345678',
-        },
-      })
-      .then((result) => {
-        expect(result.statusCode).toEqual(200);
       });
   });
 
@@ -68,18 +51,11 @@ describe('authentication', () => {
   });
 
   it(`/PUT userSession`, () => {
-    const sessionExpired = {
-      accessToken:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1MzV9.xKjVVLb-kxzAqc7zbl8MzyXiLD5Ejy0K4BRFntDQOag',
-      refreshToken:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1NjV9.zBWJKSkD_is7eLmfo0bMRjw-7H9ZStLoTUi3Dz__Ijk',
-    };
-
     return app
       .inject({
         method: 'PUT',
         url: '/userSession',
-        payload: sessionExpired,
+        payload: dataExample.sessionInvalidSignature,
       })
       .then((result) => {
         expect(result.statusCode).toEqual(401);
@@ -92,44 +68,22 @@ describe('authentication', () => {
   });
 
   it(`/PUT userSession`, () => {
-    const sessionExpired = {
-      accessToken:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1MzV9.xKjVVLb-kxzAqc7zbl8MzyXiLD5Ejy0K4BRFntDQOag',
-      refreshToken:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1NjV9.zBWJKSkD_is7eLmfo0bMRjw-7H9ZStLoTUi3Dz__Ijk',
-    };
-
     return app
       .inject({
         method: 'PUT',
         url: '/userSession',
-        payload: sessionExpired,
+        payload: dataExample.sessionExpired,
       })
       .then((result) => {
         expect(result.statusCode).toEqual(401);
       });
   });
 
-  it(`/DELETE languages expect status 401`, () => {
+  it(`[AUTH]: Check ROLES - take 1 api as an example /DELETE languages [403]`, () => {
     return app
       .inject({
         method: 'DELETE',
-        url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
-        headers: {
-          authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNTNlNTQyMjQtN2Y1Zi00M2QxLWE0MmEtMjVjMzBhYmEzMGUyIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNjI0Nzk5NTA1LCJleHAiOjE2MjQ3OTk1MzV9.xKjVVLb-kxzAqc7zbl8MzyXiLD5Ejy0K4BRFntDQOag',
-        },
-      })
-      .then((result) => {
-        expect(result.statusCode).toEqual(401);
-      });
-  });
-
-  it(`/DELETE languages expect status 403`, () => {
-    return app
-      .inject({
-        method: 'DELETE',
-        url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
+        url: 'languages/' + dataExample.languageId,
         headers: {
           authorization: 'Bearer ' + (token as any).accessToken,
         },
@@ -139,18 +93,32 @@ describe('authentication', () => {
       });
   });
 
-  it(`/DELETE languages expect status 401`, () => {
+  it(`[AUTH]: Check AUTHORIZATION [not use Token] - take 1 api as an example /DELETE languages [401]`, () => {
     return app
       .inject({
         method: 'DELETE',
-        url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
+        url: 'languages/' + dataExample.languageId,
       })
       .then((result) => {
         expect(result.statusCode).toEqual(401);
       });
   });
 
-  it(`/DELETE language`, () => {
+  it(`[AUTH]: Check AUTHORIZATION [use Token expired] - take 1 api as an example /DELETE languages [401]`, () => {
+    return app
+      .inject({
+        method: 'DELETE',
+        url: 'languages/' + dataExample.languageId,
+        headers: {
+          authorization: 'Bearer ' + dataExample.accessToken401,
+        },
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(401);
+      });
+  });
+
+  it(`[AUTH]: Check ROUTER - take 1 api as an example /DELETE language[s] [404]`, () => {
     return app
       .inject({
         method: 'DELETE',
@@ -162,20 +130,7 @@ describe('authentication', () => {
       });
   });
 
-  it(`/DELETE languages`, () => {
-    return app
-      .inject({
-        method: 'DELETE',
-        url: 'languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
-        headers: {
-          authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiNDRhNjYxOWUtZjZjMy00MjNhLWI2NjktYTc4MzFlN2Y0MDEzIiwicm9sZXMiOiJBRE1JTiIsImlhdCI6MTYyNDk2OTAwNywiZXhwIjoxNjI0OTY5MDEwfQ.3CjsHU6qGG5Gd-_PKAmobFgLK2W0KcZg4GdevRKojr4'
-        }
-      })
-      .then((result) => {
-        expect(result.statusCode).toEqual(401);
-      });
-  });
-
+  //move module languages
   it(`/POST languages expect 400`, () => {
     return app
       .inject({

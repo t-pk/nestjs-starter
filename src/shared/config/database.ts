@@ -11,7 +11,7 @@ export const databaseConfig: IDBConfig = (configService) => {
     host: '' + configService.get('DB_HOST'),
     port: Number(configService.get('DB_PORT')),
     dialect: 'postgres',
-    logging: true,
+    logging: false,
     force: true,
     timezone: '+07:00',
   };
