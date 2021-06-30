@@ -18,10 +18,6 @@ export class LanguageService {
     private languageModel: typeof Languages
   ) {}
 
-  // async findAllLanguage(): Promise<Languages[]> {
-  //   return await this.languageModel.findAll();
-  // }
-
   public async findLanguages(query: QueryLanguage): Promise<Pagination<Model>> {
     const options: FindOptions = convertQuery(query);
     options.order = [['created_at', 'ASC']];

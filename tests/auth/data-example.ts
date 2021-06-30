@@ -16,4 +16,8 @@ export const dataExample = {
     username: 'admin',
     password: '12345678',
   },
+  accountNotExist: {
+    username: 'awhdiahwdhawkdhkaw',
+    password: 'adawdjwahdiakhd',
+  },
 };
