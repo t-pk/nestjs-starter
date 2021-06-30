@@ -3,14 +3,11 @@
   "version": "0.1.1",
   "description": "Get started for beginners with Nestjs",
   "keywords": [
-    "starter-nestjs",
-    "beginner-nestjs",
-    "nestjs-starter",
     "nest",
-    "nest-fastify",
-    "nestjs",
-    "nest.js",
-    "nest.js jwt"
+    "nest starter",
+    "nestjs starter",
+    "nestjs-starter",
+    "typescript nest"
   ],
   "author": "TaiPham",
   "license": "MIT",
