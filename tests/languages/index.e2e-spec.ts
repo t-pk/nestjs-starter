@@ -1,13 +1,17 @@
-import supertest from 'supertest';
 import { Test } from '@nestjs/testing';
 import { LanguageModule } from '../../src/modules/language/language.module';
-import { INestApplication } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { DispatchError } from '../../src/shared';
 import { AuthModule } from '../../src/modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { dataExample } from './data-example';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 describe('languages', () => {
-  let app: INestApplication;
+  let app: NestFastifyApplication;
   let accessToken = '';
 
   beforeAll(async () => {
@@ -19,77 +23,113 @@ describe('languages', () => {
       ],
     }).compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter()
+    );
 
-    app.useGlobalPipes(new DispatchError());
+    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalFilters(new DispatchError());
 
     await app.init();
 
-    supertest(app.getHttpServer())
-      .post('/userSession')
-      .send({ username: 'user', password: '12345678' })
-      .end((_, response) => {
-        accessToken = response.body.accessToken;
+    app
+      .inject({
+        method: 'POST',
+        url: '/userSession',
+        payload: dataExample.userLogin,
+      })
+      .then((result) => {
+        accessToken = JSON.parse(result.payload).accessToken;
       });
   });
 
-  it(`/GET /content`, () => {
-    return supertest(app.getHttpServer()).get('/languages').expect(200);
-  });
-
-  it(`/GET /languages`, () => {
-    return supertest(app.getHttpServer()).get('/languages').expect(200);
-  });
-
-  it(`/GET /languages`, () => {
-    return supertest(app.getHttpServer())
-      .get('/languages')
-      .query({ limit: 5 })
-      .expect(200);
-  });
-
-  it(`/GET /languages`, () => {
-    return supertest(app.getHttpServer())
-      .get('/languages')
-      .query({ limit: 5, page: 10, status: true })
-      .expect(200);
-  });
-
-  it(`/GET /languages`, () => {
-    return supertest(app.getHttpServer())
-      .get('/languages')
-      .query({ limit: 20, page: 2 })
-      .expect(200);
-  });
-
-  it(`/POST /languages`, () => {
-    return supertest(app.getHttpServer())
-      .post('/languages')
-      .send({
-        name: 'string',
-        iconId: 'string',
-        email: 'asdkhadk@gmail.com',
-        status: true,
+  it(`/GET /languages - no params - [200]`, () => {
+    return app
+      .inject({
+        method: 'GET',
+        url: '/languages',
       })
-      .expect(201);
+      .then((result) => {
+        expect(result.statusCode).toEqual(200);
+      });
   });
 
-  it(`/POST /languages`, () => {
-    return supertest(app.getHttpServer())
-      .post('/languages')
-      .send({
-        iconId: 'string',
-        email: 'asdkhadk@gmail.com',
-        status: true,
+  it(`/GET /languages - params with not exist item - [200]`, () => {
+    return app
+      .inject({
+        method: 'GET',
+        url: '/languages',
+        query: {
+          limit: '5',
+          page: '10',
+          status: 'true',
+        },
       })
-      .expect(400);
+      .then((result) => {
+        expect(result.statusCode).toEqual(200);
+      });
   });
 
-  it(`/DELETE /languages/:id`, () => {
-    return supertest(app.getHttpServer())
-      .delete('/languages/b63b5865-db89-485f-bc53-9de2f4c6fe79')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(200);
+  it(`/GET /languages - params with exist item - [200] `, () => {
+    return app
+      .inject({
+        method: 'GET',
+        url: '/languages',
+        query: {
+          limit: '20',
+          page: '2',
+        },
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(200);
+      });
+  });
+
+  it(`/POST /languages create a language - [201]`, () => {
+    return app
+      .inject({
+        method: 'POST',
+        url: '/languages',
+        payload: {
+          name: 'string',
+          iconId: 'string',
+          email: 'asdkhadk@gmail.com',
+          status: true,
+        },
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(201);
+      });
+  });
+
+  it(`/POST /languages create language not property 'name' - [400]`, () => {
+    return app
+      .inject({
+        method: 'POST',
+        url: '/languages',
+        payload: {
+          iconId: 'string',
+          email: 'asdkhadk@gmail.com',
+          status: true,
+        },
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(400);
+      });
+  });
+
+  it(`/DELETE /languages/:id remove a language - [200]`, () => {
+    return app
+      .inject({
+        method: 'DELETE',
+        url: '/languages/b63b5865-db89-485f-bc53-9de2f4c6fe79',
+        headers: {
+          authorization: 'Bearer ' + accessToken,
+        },
+      })
+      .then((result) => {
+        expect(result.statusCode).toEqual(200);
+      });
   });
 
   afterAll(async () => {

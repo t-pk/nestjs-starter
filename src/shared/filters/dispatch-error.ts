@@ -35,7 +35,9 @@ export class DispatchError extends ValidationPipe implements ExceptionFilter {
   public catch(err: unknown | any, host: ArgumentsHost): unknown {
     const res = host.switchToHttp().getResponse();
     res.header('Content-Type', 'application/json');
+
     Logger.log(err);
+
     switch (err.constructor) {
       case MessageCodeError:
         res.header(CODE, err.errorMessage);

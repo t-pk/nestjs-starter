@@ -9,7 +9,7 @@ import { LanguageModule } from '../../src/modules/language/language.module';
 import { ValidationPipe } from '@nestjs/common';
 import { dataExample } from './data-example';
 
-describe('authentication', () => {
+describe('Authentication', () => {
   let app: NestFastifyApplication;
   let token = {};
 
@@ -38,36 +38,41 @@ describe('authentication', () => {
       });
   });
 
-  it(`/PUT userSession`, () => {
-    return app
-      .inject({
-        method: 'PUT',
-        url: '/userSession',
-        payload: token,
-      })
-      .then((result) => {
-        expect(result.statusCode).toEqual(200);
-      });
+  it(`/POST userSession account not exist [401]`, async () => {
+    const result = await app.inject({
+      method: 'POST',
+      url: '/userSession',
+      payload: dataExample.accountNotExist,
+    });
+    expect(result.statusCode).toEqual(401);
   });
 
-  it(`/PUT userSession`, () => {
-    return app
-      .inject({
-        method: 'PUT',
-        url: '/userSession',
-        payload: dataExample.sessionInvalidSignature,
-      })
-      .then((result) => {
-        expect(result.statusCode).toEqual(401);
-        expect(JSON.parse(result.payload)).toMatchObject({
-          statusCode: 401,
-          error: 'Unauthorized',
-          message: 'invalid signature',
-        });
-      });
+  it(`/PUT userSession - update session with the refresh token time left - [200]`, async () => {
+    const result = await app.inject({
+      method: 'PUT',
+      url: '/userSession',
+      payload: token,
+    });
+    expect(result.statusCode).toEqual(200);
   });
 
-  it(`/PUT userSession`, () => {
+  it(`/PUT userSession - update session with the refresh token invalid singnature - [401]`, async () => {
+    const result = await app.inject({
+      method: 'PUT',
+      url: '/userSession',
+      payload: dataExample.sessionInvalidSignature,
+    });
+
+    expect(result.statusCode).toEqual(401);
+
+    expect(JSON.parse(result.payload)).toMatchObject({
+      statusCode: 401,
+      error: 'Unauthorized',
+      message: 'invalid signature',
+    });
+  });
+
+  it(`/PUT userSession - update session with the refresh token expired - [401]`, () => {
     return app
       .inject({
         method: 'PUT',
@@ -79,7 +84,7 @@ describe('authentication', () => {
       });
   });
 
-  it(`[AUTH]: Check ROLES - take 1 api as an example /DELETE languages [403]`, () => {
+  it(`[AUTH]: Check ROLES - take 1 api as an example /DELETE languages - [403]`, () => {
     return app
       .inject({
         method: 'DELETE',
@@ -93,7 +98,7 @@ describe('authentication', () => {
       });
   });
 
-  it(`[AUTH]: Check AUTHORIZATION [not use Token] - take 1 api as an example /DELETE languages [401]`, () => {
+  it(`[AUTH]: Check AUTHORIZATION [not use Token] - take 1 api as an example /DELETE languages - [401]`, () => {
     return app
       .inject({
         method: 'DELETE',
@@ -104,7 +109,7 @@ describe('authentication', () => {
       });
   });
 
-  it(`[AUTH]: Check AUTHORIZATION [use Token expired] - take 1 api as an example /DELETE languages [401]`, () => {
+  it(`[AUTH]: Check AUTHORIZATION [use Token expired] - take 1 api as an example /DELETE languages - [401]`, () => {
     return app
       .inject({
         method: 'DELETE',
@@ -118,7 +123,7 @@ describe('authentication', () => {
       });
   });
 
-  it(`[AUTH]: Check ROUTER - take 1 api as an example /DELETE language[s] [404]`, () => {
+  it(`[AUTH]: Check ROUTER - take 1 api as an example /DELETE language[s] - [404]`, () => {
     return app
       .inject({
         method: 'DELETE',
@@ -127,18 +132,6 @@ describe('authentication', () => {
       })
       .then((result) => {
         expect(result.statusCode).toEqual(404);
-      });
-  });
-
-  //move module languages
-  it(`/POST languages expect 400`, () => {
-    return app
-      .inject({
-        method: 'POST',
-        url: '/languages',
-      })
-      .then((result) => {
-        expect(result.statusCode).toEqual(400);
       });
   });
 

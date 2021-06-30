@@ -1,7 +1,7 @@
 import { getRoute } from '../../src/shared/utils/reponse';
 
 describe('request route', () => {
-  it(`[REQUEST ROUTE] Set up routing on the internet environment`, async () => {
+  it(`[REQUEST ROUTE] - Set up routing on the internet environment`, async () => {
     const req = {
       context: {
         config: {

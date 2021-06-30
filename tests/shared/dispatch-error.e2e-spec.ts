@@ -17,7 +17,7 @@ describe('message code error', () => {
     await app.init();
   });
 
-  it(`[MESSAGE CODE ERROR]`, async () => {
+  it(`Message code return exactly model is defined`, async () => {
     expect(new MessageCodeError('auth:header:null')).toBeInstanceOf(
       MessageCodeError
     );
