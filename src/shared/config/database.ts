@@ -20,6 +20,7 @@ export const databaseConfig: IDBConfig = (configService) => {
   switch (env) {
     case 'dev':
     case 'development':
+      configBase.logging = true;
       return configBase;
 
     case 'test':
