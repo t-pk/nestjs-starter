@@ -20,7 +20,7 @@
 
 ## Description
 
-Beginner's kit project made with [Nest](https://github.com/nestjs/nest) combined with some powerful libraries such as: [Fastify](https://github.com/fastify/fastify), [Sequelize](https://github.com/sequelize/sequelize), [JWT](https://github.com/nestjs/jwt)...
+This project for beginners made of [Nest](https://github.com/nestjs/nest) combined with some powerful libraries such as: [Fastify](https://github.com/fastify/fastify), [Sequelize](https://github.com/sequelize/sequelize), [JWT](https://github.com/nestjs/jwt)...
 written in [Typescript](https://github.com/microsoft/TypeScript) and uses [PostgreSQL](https://github.com/postgres/postgres) as the database.
 
 ## Introduction
