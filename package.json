@@ -1,6 +1,6 @@
 {
   "name": "nestjs-starter",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Get started for beginners with Nestjs",
   "keywords": [
     "nest",
@@ -9,7 +9,7 @@
     "nestjs-starter",
     "typescript nest"
   ],
-  "author": "TaiPham",
+  "author": "TaiPham (https://github.com/pktai)",
   "license": "MIT",
   "scripts": {
     "check-types": "tsc",
@@ -112,5 +112,13 @@
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pktai/nestjs-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pktai/nestjs-starter/issues"
+  },
+  "contributors": ["TaiPham (https://github.com/pktai)"]
 }
