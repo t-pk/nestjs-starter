@@ -11,7 +11,13 @@ import { DispatchError } from './shared';
 import helmet from 'fastify-helmet';
 import fastifyRateLimit from 'fastify-rate-limit';
 import cookieParser from 'cookie-parser';
-import { CSP, responseRateLimitError } from './shared/config/policy-protection';
+import {
+  CSP,
+  responseNotFound,
+  responseRateLimitError,
+} from './shared/config/policy-protection';
+
+const prefix = '/api';
 
 const fAdapt = new FastifyAdapter();
 const { RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW, SERVICE_PORT, SERVICE_NAME } =
@@ -23,6 +29,16 @@ fAdapt.register(fastifyRateLimit, {
   errorResponseBuilder: responseRateLimitError,
 });
 
+fAdapt.register(
+  (instance, _options, done) => {
+    instance.setNotFoundHandler(function (_request, _reply) {
+      _reply.code(404).send(responseNotFound);
+    });
+    done();
+  },
+  { prefix }
+);
+
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -31,7 +47,7 @@ async function bootstrap(): Promise<void> {
 
   app.use(cookieParser());
   app.enableCors();
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(prefix);
 
   app.register(helmet, CSP);
 

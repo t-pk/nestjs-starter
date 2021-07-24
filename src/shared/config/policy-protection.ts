@@ -24,4 +24,9 @@ const responseRateLimitError = (
   };
 };
 
-export { CSP, responseRateLimitError };
+const responseNotFound = {
+  code: 404,
+  message: 'Not Found.',
+};
+
+export { CSP, responseRateLimitError, responseNotFound };
