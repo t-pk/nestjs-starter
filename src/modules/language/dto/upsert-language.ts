@@ -31,5 +31,5 @@ export class UpsertLanguage {
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-   readonly updatedBy: string;
+  readonly updatedBy: string;
 }

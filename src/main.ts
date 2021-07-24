@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
@@ -9,7 +10,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { DispatchError } from './shared';
 import helmet from 'fastify-helmet';
 import fastifyRateLimit from 'fastify-rate-limit';
-import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import { CSP, responseRateLimitError } from './shared/config/policy-protection';
 

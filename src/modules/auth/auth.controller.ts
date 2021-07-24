@@ -1,4 +1,11 @@
-import { Controller, Post, Put, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Body,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ISession } from '../../shared/interfaces/session';
@@ -17,9 +24,7 @@ export class AuthController {
   }
 
   @Put()
-  async updateSession(
-    @Body() tokens: UpdateSession
-  ): Promise<ISession> {
+  async updateSession(@Body() tokens: UpdateSession): Promise<ISession> {
     return this.authService.updateSession(tokens);
   }
 }
