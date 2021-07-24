@@ -11,7 +11,7 @@ import helmet from 'fastify-helmet';
 import fastifyRateLimit from 'fastify-rate-limit';
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
-import { CSP } from './shared/config/policy';
+import { CSP, responseRateLimitError } from './shared/config/policy-protection';
 
 const fAdapt = new FastifyAdapter();
 const { RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW, SERVICE_PORT, SERVICE_NAME } =
@@ -20,6 +20,7 @@ const { RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW, SERVICE_PORT, SERVICE_NAME } =
 fAdapt.register(fastifyRateLimit, {
   max: Number(RATE_LIMIT_MAX),
   timeWindow: RATE_LIMIT_TIME_WINDOW,
+  errorResponseBuilder: responseRateLimitError,
 });
 
 async function bootstrap(): Promise<void> {

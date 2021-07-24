@@ -1,0 +1,8 @@
+curl -X 'GET' \
+  'http://localhost:3001/api/languages?id=c3bf3b90-eb5a-11eb-9a03-0242ac130003&name=vn&email=abx%40gmail.com' \
+  -H 'accept: */*'
+
+
+curl -X 'DELETE' \
+  'http://localhost:3001/api/languages/c3bf3b90-eb5a-11eb-9a03-0242ac130003' \
+  -H 'accept: */*'
