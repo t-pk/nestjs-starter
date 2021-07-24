@@ -30,9 +30,9 @@ fAdapt.register(fastifyRateLimit, {
 });
 
 fAdapt.register(
-  (instance, _options, done) => {
-    instance.setNotFoundHandler(function (_request, _reply) {
-      _reply.code(404).send(responseNotFound);
+  (instance, _, done) => {
+    instance.setNotFoundHandler((__, reply) => {
+      reply.code(404).send(responseNotFound);
     });
     done();
   },
