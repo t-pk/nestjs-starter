@@ -6,7 +6,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { DispatchError } from './shared';
 import helmet from 'fastify-helmet';
 import fastifyRateLimit from 'fastify-rate-limit';
@@ -32,7 +32,7 @@ fAdapt.register(fastifyRateLimit, {
 fAdapt.register(
   (instance, _, done) => {
     instance.setNotFoundHandler((__, reply) => {
-      reply.code(404).send(responseNotFound);
+      reply.code(HttpStatus.NOT_FOUND).send(responseNotFound);
     });
     done();
   },
