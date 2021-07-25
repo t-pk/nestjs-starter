@@ -100,7 +100,10 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalFilters(new DispatchError());
 
-  await app.listen(Number(SERVICE_PORT), '' + SERVICE_NAME);
+  await app.listen(
+    Number(SERVICE_PORT || 3001),
+    '' + SERVICE_NAME || '0.0.0.0'
+  );
 }
 
 bootstrap();
