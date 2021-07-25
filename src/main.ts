@@ -26,8 +26,12 @@ import {
 const prefix = '/api';
 
 const fAdapt = new FastifyAdapter();
-const { RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW, WHITE_LIST } =
-  process.env;
+const {
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_TIME_WINDOW,
+  PORT,
+  WHITE_LIST,
+} = process.env;
 
 fAdapt.register(fastifyRateLimit, {
   max: Number(RATE_LIMIT_MAX),
@@ -95,7 +99,7 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalFilters(new DispatchError());
 
-  await app.listen(8080);
+  await app.listen(Number(PORT || 3001));
 }
 
 bootstrap();

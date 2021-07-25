@@ -14,12 +14,12 @@ export const databaseConfig: IDBConfig = (configService) => {
     logging: false,
     force: true,
     timezone: '+07:00',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false,
+    //   },
+    // },
   };
 
   const env = '' + configService.get('NODE_ENV');
