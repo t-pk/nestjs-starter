@@ -95,7 +95,7 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalFilters(new DispatchError());
 
-  await app.listen(8080, '0.0.0.0');
+  await app.listen(8080);
 }
 
 bootstrap();
