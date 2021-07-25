@@ -99,7 +99,7 @@ async function bootstrap(): Promise<void> {
   );
 
   app.useGlobalFilters(new DispatchError());
-
+  console.log('ASDasda', PORT, SERVICE_NAME);
   await app.listen(Number(PORT || 3001), '' + SERVICE_NAME || '0.0.0.0');
 }
 
