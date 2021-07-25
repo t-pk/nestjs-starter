@@ -29,7 +29,6 @@ const fAdapt = new FastifyAdapter();
 const {
   RATE_LIMIT_MAX,
   RATE_LIMIT_TIME_WINDOW,
-  SERVICE_PORT,
   SERVICE_NAME,
   WHITE_LIST,
 } = process.env;
@@ -100,7 +99,7 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalFilters(new DispatchError());
 
-  await app.listen(Number(SERVICE_PORT || 3001), SERVICE_NAME || 'localhost');
+  await app.listen(8080, SERVICE_NAME || 'localhost');
 }
 
 bootstrap();
