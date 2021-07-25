@@ -9,6 +9,13 @@ export const errorMessagesConfig: { [messageCode: string]: IErrorMessages } = {
     userMessage: 'Unable to create a new user with missing information.',
   },
 
+  'cors:notAllowed': {
+    type: 'CORS',
+    httpStatus: HttpStatus.PAYLOAD_TOO_LARGE,
+    errorMessage: 'Not allowed by CORS',
+    userMessage: 'Not allowed by CORS.',
+  },
+
   'content:key:exists': {
     type: 'BadRequest',
     httpStatus: HttpStatus.BAD_REQUEST,

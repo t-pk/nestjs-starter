@@ -10,3 +10,21 @@ curl -X 'DELETE' \
   curl -X 'GET' \
   'http://localhost:3001/api/langua' \
   -H 'accept: */*'
+
+
+curl -X 'POST' \
+  'http://localhost:3001/api/languages' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Host: localhost:3001' \
+  -H 'Origin: http://localhost:3001' \
+  -d '{
+  "id": "string",
+  "name": "string",
+  "iconId": "string",
+  "status": true,
+  "email": "string",
+  "createdBy": "string",
+  "updatedBy": "string"
+}'
