@@ -30,6 +30,7 @@ const {
   RATE_LIMIT_MAX,
   RATE_LIMIT_TIME_WINDOW,
   PORT,
+  SERVICE_NAME,
   WHITE_LIST,
 } = process.env;
 
@@ -99,7 +100,7 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalFilters(new DispatchError());
 
-  await app.listen(Number(PORT || 3001));
+  await app.listen(Number(PORT || 3001), '' + SERVICE_NAME || '0.0.0.0');
 }
 
 bootstrap();
