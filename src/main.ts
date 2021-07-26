@@ -67,6 +67,7 @@ async function bootstrap(): Promise<void> {
   app.enableCors({
     origin: (origin, callback) => {
       console.log('origin', origin);
+      console.log(process.env.METHOD);
       if (origin && !whitelist.includes(origin))
         return callback(new MessageCodeError('cors:notAllowed'));
       callback(null, true);
