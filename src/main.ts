@@ -63,14 +63,14 @@ async function bootstrap(): Promise<void> {
   app.use(cookieParser());
 
   const whitelist = (WHITE_LIST || '').split(',');
-
+  console.log('whitelist', whitelist);
   app.enableCors({
     origin: (origin, callback) => {
       if (origin && !whitelist.includes(origin))
         return callback(new MessageCodeError('cors:notAllowed'));
       callback(null, true);
     },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: process.env.METHOD,
     preflightContinue: false,
     optionsSuccessStatus: 204,
     credentials: true,
