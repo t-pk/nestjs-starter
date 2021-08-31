@@ -4,7 +4,7 @@ import { Cat } from '../../schemas/cat.schema';
 @Injectable()
 export class CatsService {
   constructor(
-    @Inject('CAT_MODEL')
+    @Inject(Cat.name)
     private catModel:  Model<Cat>
   ) {}
 
