@@ -13,7 +13,7 @@ export class CatsController {
   @Post()
   async create(@Body() createCatDto: any): Promise<any> {
     console.log(createCatDto);
-    this.catsService.create();
+    this.catsService.create(createCatDto);
   }
 
 }

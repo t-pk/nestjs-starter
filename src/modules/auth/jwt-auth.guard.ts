@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { Users } from 'src/entities';
+import { Users } from '../../entities';
 import { Role } from './roles/roles.enum';
 import { ROLES_KEY } from './roles/roles.decorator';
 import { TokenExpiredError } from 'jsonwebtoken';

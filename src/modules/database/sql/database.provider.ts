@@ -1,6 +1,6 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-import { databaseConfig } from '../../shared/index';
-import { Languages, Users } from '../../entities';
+import { databaseConfig } from '../../../shared/index';
+import { Languages, Users } from '../../../entities';
 import { ConfigService } from '@nestjs/config';
 
 //import * as cls from 'cls-hooked';

@@ -4,7 +4,7 @@ import { Dictionary } from 'lodash';
 import { FindOptions, Model } from 'sequelize/types';
 import { paginate, Pagination } from '../../shared';
 import { Languages } from '../../entities';
-import { UnitOfWork } from '../database/UnitOfWork';
+import { UnitOfWork } from '../database/sql/UnitOfWork';
 import { ResponseOK, successReponse } from './../../shared/utils/reponse';
 import { UpsertLanguage } from './dto';
 import { QueryLanguage } from './dto/query-language';
