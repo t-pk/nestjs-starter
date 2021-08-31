@@ -4,7 +4,7 @@ import { DATABASE_CONNECTION } from './enumuration';
 
 export const catsProviders = {
   provide: Cat.name,
+  inject: [DATABASE_CONNECTION],
   useFactory: (connection: Connection): unknown =>
     connection.model(Cat.name, CatSchema),
-  inject: [DATABASE_CONNECTION],
 };
