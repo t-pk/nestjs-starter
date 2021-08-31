@@ -11,9 +11,15 @@ export const databaseConfig: IDBConfig = (configService) => {
     host: '' + configService.get('DB_HOST'),
     port: Number(configService.get('DB_PORT')),
     dialect: 'postgres',
-    logging: false,
+    logging: console.log as any,
     force: true,
     timezone: '+07:00',
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false,
+    //   },
+    // },
   };
 
   const env = '' + configService.get('NODE_ENV');
