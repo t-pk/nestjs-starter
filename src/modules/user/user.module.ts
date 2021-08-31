@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseModule } from '../database/database.module';
-import { UsersRepository } from '../database/repository.database.provider';
+import { DatabaseModule } from '../database/sql/database.module';
+import { UsersRepository } from '../database/sql/repository.database.provider';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 

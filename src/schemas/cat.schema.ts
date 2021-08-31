@@ -1,25 +1,14 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Model, Schema as MongooseSchema } from 'mongoose';
+import mongoose from 'mongoose';
+import { Document } from 'mongoose';
 
-@Schema()
-export class Cat extends Model {
-  @Prop({ type: String })
-  user: MongooseSchema.Types.ObjectId;
+export const CatSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  breed: String,
+});
 
-  @Prop({ type: String })
-  productName: string;
-
-  @Prop({ type: String })
-  status: string;
-
-  @Prop({ type: String })
-  client: any;
-
-  @Prop({ type: Date, default: Date.now })
-  updatedAt: Date;
-
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
+export interface Cat extends Document {
+  readonly name: string;
+  readonly age: number;
+  readonly breed: string;
 }
-
-export const CatSchema = SchemaFactory.createForClass(Cat);

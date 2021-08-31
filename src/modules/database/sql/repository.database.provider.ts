@@ -1,4 +1,4 @@
-import { Languages, Users } from '../../entities';
+import { Languages, Users } from '../../../entities';
 import { getModelToken } from '@nestjs/sequelize';
 
 export const LanguagesRepository = {
