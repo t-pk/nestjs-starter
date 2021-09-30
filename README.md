@@ -35,7 +35,7 @@ The setup and startup steps I describe in the Installation section.
 1. Open Git bash.
 2. git clone https://github.com/pktai/nestjs-starter.git.
 3. cd nestjs-starter.
-4. yarn.
+4. yarn. // install library.
 5. setup .env file. Please open the file `env.example` and set the environment variables properly.
 
 ```
@@ -63,6 +63,7 @@ DEFAULT_LIMIT_PAGE=10
 
 SERVICE_PORT=3001
 SERVICE_NAME='0.0.0.0'
+MONGO_DB=mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
 
 ```
 
