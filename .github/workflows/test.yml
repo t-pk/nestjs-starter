@@ -1,43 +1,43 @@
-# name: Test
+name: Test
 
-# on: [push, pull_request]
+on: [push, pull_request]
 
-# jobs:
-#   release:
-#     runs-on: ${{ matrix.os }}
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
 
-#     strategy:
-#       matrix:
-#         os: [macos-latest, windows-latest, ubuntu-latest]
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
 
-#     steps:
-#       - name: Check out Git repository
-#         uses: actions/checkout@v1
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
-#       - name: Install Node.js, NPM and Yarn
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: 14.17.1
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.17.1
 
-#       - name: yarn install
-#         run: |
-#           yarn install --frozen-lockfile --network-timeout 300000
+      - name: yarn install
+        run: |
+          yarn install --frozen-lockfile --network-timeout 300000
 
-#       - name: yarn build
-#         run: |
-#           yarn lint
+      - name: yarn build
+        run: |
+          yarn lint
 
-#       - name: yarn coverage
-#         env:
-#           NODE_ENV: ${{ secrets.NODE_ENV }}
-#           DB_DIALECT: ${{ secrets.DB_DIALECT }}          
-#           DB_USER: ${{ secrets.DB_USER }}
-#           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-#           DB_NAME: ${{ secrets.DB_NAME }}
-#           DB_HOST: ${{ secrets.DB_HOST }}
-#           DB_PORT: ${{ secrets.DB_PORT }}
-#           RATE_LIMIT_TIME_WINDOW: ${{ secrets.RATE_LIMIT_TIME_WINDOW }}
-#           RATE_LIMIT_MAX: ${{ secrets.RATE_LIMIT_MAX }}
-#           SERVICE_PORT: ${{ secrets.SERVICE_PORT }}
-#         run: |
-#           yarn test:cov
+      - name: yarn coverage
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          DB_DIALECT: ${{ secrets.DB_DIALECT }}          
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          RATE_LIMIT_TIME_WINDOW: ${{ secrets.RATE_LIMIT_TIME_WINDOW }}
+          RATE_LIMIT_MAX: ${{ secrets.RATE_LIMIT_MAX }}
+          SERVICE_PORT: ${{ secrets.SERVICE_PORT }}
+        # run: |
+        #   yarn test:cov
