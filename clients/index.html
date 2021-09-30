@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
   <script>
     // NOTE: init settup;
@@ -11,22 +12,17 @@
     });
     //---------------------------------------
 
-    socket.on('connect', function () {
-      console.log('Connected');
-
-      setInterval(() => {
-        socket.emit(EVENT_NAME, { client: Date.now() });
-
-      }, 3000);
-    });
+    setInterval(() => {
+      socket.emit(EVENT_NAME, { client: Date.now() });
+    }, 3000);
 
     socket.on(EVENT_NAME, function (data) {
       console.log(data);
     });
 
-    // socket.on('disconnect', function () {
-    //   console.log('Disconnected');
-    // });
+    socket.on('unauthorized', function (err) {
+      console.log('Disconnect> ', err);
+    });
   </script>
 </head>
 
