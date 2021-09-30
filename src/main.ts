@@ -63,11 +63,8 @@ async function bootstrap(): Promise<void> {
   app.use(cookieParser());
 
   const whitelist = (WHITE_LIST || '').split(',');
-  console.log('whitelist', whitelist);
   app.enableCors({
     origin: (origin, callback) => {
-      console.log('origin', origin);
-      console.log(process.env.METHOD);
       if (origin && !whitelist.includes(origin))
         return callback(new MessageCodeError('cors:notAllowed'));
       callback(null, true);
@@ -101,7 +98,6 @@ async function bootstrap(): Promise<void> {
   );
 
   app.useGlobalFilters(new DispatchError());
-  console.log('ASDasda', PORT, SERVICE_NAME);
   await app.listen(Number(PORT || 3001), '' + SERVICE_NAME || '0.0.0.0');
 }
 
