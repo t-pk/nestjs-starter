@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { LanguageModule } from './modules/language/language.module';
 import { UsersModule } from './modules/user/user.module';
 import { CatsModule } from './modules/cat/cat.module';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { CatsModule } from './modules/cat/cat.module';
     LanguageModule,
     CatsModule,
     UsersModule,
+    EventsModule
   ],
 })
 export class AppModule {}

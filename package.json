@@ -54,8 +54,10 @@
     "@nestjs/passport": "~7.1.5",
     "@nestjs/platform-express": "~7.6.18",
     "@nestjs/platform-fastify": "~7.6.18",
+    "@nestjs/platform-socket.io": "~8.0.8",
     "@nestjs/sequelize": "~0.2.0",
     "@nestjs/swagger": "~4.8.0",
+    "@nestjs/websockets": "~8.0.8",
     "@types/bluebird": "~3.5.35",
     "@types/cls-hooked": "~4.3.3",
     "@types/validator": "~13.1.4",
@@ -74,7 +76,8 @@
     "pg": "~8.6.0",
     "reflect-metadata": "~0.1.13",
     "sequelize": "~6.6.2",
-    "sequelize-typescript": "~2.1.0"
+    "sequelize-typescript": "~2.1.0",
+    "socket.io": "~4.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "~12.1.4",
