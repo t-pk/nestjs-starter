@@ -38,6 +38,8 @@ export class LanguageService {
         where: { id },
         hooks: true,
         transaction,
+        benchmark: true,
+        logging: true,
       });
       return successReponse;
     });
