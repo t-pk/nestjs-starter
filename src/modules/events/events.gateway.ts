@@ -35,7 +35,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       payload.sub && this.clients.set(payload.sub, client);
       this.logger.log(`Client connected => ${id} ${payload.username}`);
     } catch (err) {
-      client.emit('unauthorized', 'token in valid');
+      client.emit('unauthorized', err);
       client.disconnect();
     }
   }
