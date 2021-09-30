@@ -1,0 +1,31 @@
+<html>
+
+<head>
+  <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
+  <script>
+    // NOTE: init settup;
+    const EVENT_NAME = 'messages';
+    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiODdjZmI5NTEtYmRlZS00NzMwLWI3MGUtMjkyMWJhNzRmODc0Iiwicm9sZXMiOiJVU0VSIiwiaWF0IjoxNjMyOTcwMzY2LCJleHAiOjI3NTUyOTcwMzY2fQ.XALYQPC2JUfzsc9TBJkoA727KzgI-V88cY2GUGaqz8g`;
+    const socket = io('ws://127.0.0.1:3001', {
+      query: `token=${token}`
+    });
+    //---------------------------------------
+
+    setInterval(() => {
+      socket.emit(EVENT_NAME, { client: Date.now() });
+    }, 3000);
+
+    socket.on(EVENT_NAME, function (data) {
+      console.log(data);
+    });
+
+    socket.on('unauthorized', function (err) {
+      console.log('Disconnect> ', err);
+    });
+  </script>
+</head>
+
+<body></body>
+
+</html>

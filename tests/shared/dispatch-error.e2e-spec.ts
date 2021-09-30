@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { DispatchError, MessageCodeError } from '../../src/shared';
-import { DatabaseModule } from '../../src/modules/database/database.module';
+import { DatabaseModule } from '../../src/modules/database/sql/database.module';
 import { ConfigModule } from '@nestjs/config';
 
 describe('message code error', () => {

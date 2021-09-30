@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { DispatchError } from '../../src/shared';
-import { DatabaseModule } from '../../src/modules/database/database.module';
-import { databaseProvider } from '../../src/modules/database/database.provider';
+import { DatabaseModule } from '../../src/modules/database/sql/database.module';
+import { databaseProvider } from '../../src/modules/database/sql/database.provider';
 import { Sequelize } from 'sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 

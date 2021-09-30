@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ResponseOK, successReponse } from '../../shared/utils/reponse';
-import { UnitOfWork } from '../database/UnitOfWork';
+import { UnitOfWork } from '../database/sql/UnitOfWork';
 import { Users } from './../../entities/';
 import { CreateUser } from './dto';
 

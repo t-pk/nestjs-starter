@@ -20,9 +20,6 @@ import {
 import { MessageCodeError } from '../errors/message-code-error';
 import { TokenExpiredError, JsonWebTokenError } from 'jsonwebtoken';
 
-const MESSAGE = 'x-message';
-const CODE = 'x-message-code-error';
-const HTTP_STATUS = 'x-httpStatus-error';
 @Catch(
   MessageCodeError,
   ValidationError,
@@ -40,26 +37,15 @@ export class DispatchError extends ValidationPipe implements ExceptionFilter {
 
     switch (err.constructor) {
       case MessageCodeError:
-        res.header(CODE, err.errorMessage);
-        res.header(MESSAGE, err.message);
-        res.header(HTTP_STATUS, err.httpStatus);
         return res.status(err.httpStatus).send(err);
 
       case ValidationError:
-        res.header(CODE, (err as ValidationError).message);
-        res.header(MESSAGE, (err as ValidationError).message);
-        res.header(HTTP_STATUS, HttpStatus.BAD_REQUEST);
         return res.status(HttpStatus.BAD_REQUEST).send(err);
 
       case UnauthorizedException:
-        res.header(CODE, err.status);
-        res.header(MESSAGE, err.message);
-        res.header(HTTP_STATUS, err.status);
         return res.status(err.status).send(err.response);
 
       case ForbiddenException:
-        res.header(CODE, err.response.statusCode);
-        res.header(MESSAGE, err.response.message);
         return res.status(err.response.statusCode).send(err.response);
 
       case BadRequestException:
@@ -89,16 +75,10 @@ export class DispatchError extends ValidationPipe implements ExceptionFilter {
         });
 
       case NotFoundException:
-        res.header(CODE, err.status);
-        res.header(MESSAGE, err.message);
-        res.header(HTTP_STATUS, HttpStatus.NOT_FOUND);
         return res.status(HttpStatus.NOT_FOUND).send(err);
 
       case TokenExpiredError:
       case JsonWebTokenError:
-        res.header(CODE, HttpStatus.UNAUTHORIZED);
-        res.header(MESSAGE, err.message);
-        res.header(HTTP_STATUS, HttpStatus.UNAUTHORIZED);
         return res.status(HttpStatus.UNAUTHORIZED).send(err);
 
       default:
