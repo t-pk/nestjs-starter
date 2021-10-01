@@ -20,7 +20,7 @@ export const databaseConfig: IDBConfig = (configService) => {
   switch (env) {
     case 'dev':
     case 'development':
-      configBase.logging = true;
+      //configBase.logging = true;
       return configBase;
 
     case 'test':
@@ -28,12 +28,12 @@ export const databaseConfig: IDBConfig = (configService) => {
 
     case 'prod':
     case 'production':
-      // configBase.dialectOptions = {
-      //   ssl: {
-      //     require: true,
-      //     rejectUnauthorized: false,
-      //   },
-      // };
+      configBase.dialectOptions = {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      };
       return configBase;
 
     default:
