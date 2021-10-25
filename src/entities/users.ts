@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Role } from '../modules/auth/roles/roles.enum';
 import { hashPassword } from '../shared/utils/crypto';
+
 @Table({ tableName: 'users', timestamps: true })
 export class Users extends Model {
   @Column({

@@ -10,6 +10,7 @@ import { Users } from '../../entities';
 import { Role } from './roles/roles.enum';
 import { ROLES_KEY } from './roles/roles.decorator';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { Observable } from 'rxjs';
 
 // prettier-ignore
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,9 +21,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
     super();
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  canActivate(context: ExecutionContext): any {
+  // prettier-ignore
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     return super.canActivate(context);
   }
 

@@ -18,7 +18,8 @@ enum EventEnum {
 @WebSocketGateway({ origins: '*:*', transports: ['websocket', 'polling'] })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private clients: Map<string, any> = new Map();
-  @WebSocketServer() server: Server;
+  @WebSocketServer()
+  private server: Server;
   private readonly logger = new Logger(EventsGateway.name);
 
   public constructor(
