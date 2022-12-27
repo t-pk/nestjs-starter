@@ -45,7 +45,7 @@
     "@nestjs/platform-socket.io": "~8.0.8",
     "@nestjs/sequelize": "~0.2.0",
     "@nestjs/swagger": "~4.8.0",
-    "@nestjs/websockets": "~8.0.8",
+    "@nestjs/websockets": "~8.4.7",
     "@types/bluebird": "~3.5.35",
     "@types/cls-hooked": "~4.3.3",
     "@types/validator": "~13.1.4",
