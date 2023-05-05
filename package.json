@@ -42,7 +42,7 @@
     "@nestjs/passport": "~7.1.5",
     "@nestjs/platform-express": "~7.6.18",
     "@nestjs/platform-fastify": "~7.6.18",
-    "@nestjs/platform-socket.io": "~8.0.8",
+    "@nestjs/platform-socket.io": "~9.3.4",
     "@nestjs/sequelize": "~0.2.0",
     "@nestjs/swagger": "~4.8.0",
     "@nestjs/websockets": "~8.0.8",
@@ -65,7 +65,7 @@
     "reflect-metadata": "~0.1.13",
     "sequelize": "~6.6.2",
     "sequelize-typescript": "~2.1.0",
-    "socket.io": "~4.2.0"
+    "socket.io": "~4.6.0"
   },
   "devDependencies": {
     "@commitlint/cli": "~12.1.4",
