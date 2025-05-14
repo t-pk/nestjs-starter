@@ -61,7 +61,7 @@
     "mongoose": "^6.0.3",
     "passport": "~0.4.1",
     "passport-jwt": "~4.0.0",
-    "pg": "~8.6.0",
+    "pg": "~8.15.1",
     "reflect-metadata": "~0.1.13",
     "sequelize": "~6.6.2",
     "sequelize-typescript": "~2.1.0",
